@@ -1,0 +1,108 @@
+
+Local seeker
+print("Variable Created: seeker")
+Local hiders 
+print(Variable Created: hiders")
+
+-- When the match starts
+
+function(GameStartingAnnouncements)
+    -- Announce that the match has started in multiple ways
+    local gameStartingMessage = "MATCH IS STARTING NOW" -- Defines the message that is said so that we dont have to type this multiple times
+    print("The Variable (GameStartingMessage) was created")
+    ChatService.sendMessage(gameStartingMessage) -- sends a chat message
+    print("MatchStarting Chat Message Sent")
+    AnnouncementService.sendAnnouncement(gameStartingMessage) -- Sends an announcement
+    print("Match Start announced")
+    MessageService.broadcast(gameStartingMessage) -- sends a prompt
+    print("starting promt sent")
+------------------------
+-- Setting Up Teams.     --
+function(PreparingTeams)
+    print ("Starting To Prepare Teams")
+    ----------------------------
+    MessageService.broadcast("Preparing teams")
+    for i team in iPairs(TeamService:getAllTeams()) do
+    if team.name == "Red" then
+        seeker = team
+            print("Team Red Succesfuly set to seeker")
+    elseif Team.name == "Blue" then
+        hiders = team
+        print("team name successfully set blue to hiders")
+    end
+for i, player in ipairs(PlayerService.getPlayers()) do
+    if player == MatchService.getHost()
+
+    then
+        TeamService.setTeam(player,seeker)
+        print("Set the Host to the seeker team!")
+    else TeamService.setTeam(player, hiders)
+        print("SetTeamHiders Success")
+-------------------------------------------
+
+--- Players will recieve items ---
+print "Giving hiders their items when called"
+local playerItems = {"DIAMOND_PICKAXE", "DIAMOND_AXE", "STONE_BRICK", "WOOL_RED", "WOOD_PLANK_MAPLE", "WOOD_PLANK_OAK", "WOOD_PLANK_BIRCH", "WOOD_PLANK_SPRUCE", "BALLOON"}
+print ("Playerss will recieve ".. playerItems)
+local HostItems = ["EMERALD_SWORD", "TELEPEARL", "BALLOON" , "FIREBALL" , "TACTICAL_CRSOSSBOW" , "ARROW"]
+print("Host Will Recieve " .. HostItems)
+function(playeritemsgive)
+    for i, player in ipairs(PlayerService.getPlayers()) do
+        if player == MatchService.getHost() then 
+            InventoryService.giveItem(player, HostItems, inf)
+
+        end
+    elseif player not == MatchService.getHost() then
+        InventoryService.giveItem(player, ItemType.playerItems, inf, true    
+    end
+    print("Successfully gave the seeker and hiders their items")
+end
+----------------------------------
+function(setPlayerHealth)
+    print("Setting Player Health")
+        for i, player in ipairs(PlayerService.getPlayers()) do
+            local entity = player:getEntity()
+            if player == MatchService.getHost() then 
+                entity:setMaxHealth(50000)
+                print("Successfully Set the host to 50000 HP")
+            else
+               entity:setMaxHealth(10)
+               print("Successfully set players health to 10")
+
+
+
+events.MatchStart(function(event)
+    GameStartingAnnouncements()
+    task.wait(2)
+    PreparingTeams()
+    MessageService.broadcast("Set Teams Success")
+    wait (2)
+    playeritemsgive()
+    MessageService.broadcast("ITEMS GIVEN")
+   setPlayerHealth()
+   MessageService.broadcast("HEALTH SET")
+end
+
+function(SeekingNow)
+    wait(2)
+    local HiderBed = TeamService.getTeamBed(hiders)
+        if HiderBed then
+            BlockService.destroyBlock(HiderBed.position)
+        end
+    end
+end
+
+local StartCommand = /start
+
+Events.PlayerChatted(function(event)
+    if event.message = /start and event.player == MatchService.getHost then
+        function(SeekingNow)
+            MessageService.broadcast("Ready or not here I come")
+            AnnouncementService.sendAnnouncemen("YOU WILL NO LONGER RESPAWN AS A HIDER")
+        end
+elseif event.player not == MatchService.getHost then
+    MessageService.broadcast("Someone tried to let the seekers out but wasnt the host")
+end
+-------------------------------------------------------------
+                             -- SCRIPT END --
+-------------------------------------------------------------                             
